@@ -1,0 +1,31 @@
+.container {
+  margin-top: 0.2rem;
+}
+
+.mainFeaturedPost {
+  position: relative;
+  padding-top: 30rem;
+  margin-bottom: 3rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: "rgba(0,0,0,.3)";
+}
+
+.mainFeaturedPostContent {
+  position: relative;
+  padding: 0.5rem;
+  color: whitesmoke;
+}
+
+.heart {
+  color: "#E4002B";
+}

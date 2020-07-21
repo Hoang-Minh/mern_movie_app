@@ -1,0 +1,12 @@
+.header {
+  flex-grow: 1;
+}
+
+.title {
+  flex-grow: 0.02;
+}
+
+.home {
+  flex-grow: 0.3;
+  /* margin-right: 5rem; */
+}
