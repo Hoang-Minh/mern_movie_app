@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
+const commentSchema = require("./comment");
 
 const movieSchema = new Schema(
   {
@@ -18,6 +19,13 @@ const movieSchema = new Schema(
         ref: "users",
       },
     ],
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    // or comments: [commentSchema] ???
     poster: String,
     plot: String,
   },

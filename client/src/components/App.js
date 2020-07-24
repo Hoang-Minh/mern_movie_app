@@ -12,7 +12,7 @@ import { checkLoggedIn } from "../actions";
 
 class App extends React.Component {
   componentDidMount() {
-    const response = this.props.checkLoggedIn();
+    this.props.checkLoggedIn();
   }
 
   render() {

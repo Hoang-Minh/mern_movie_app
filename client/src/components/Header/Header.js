@@ -7,8 +7,6 @@ import styles from "./Header.module.css";
 import Profile from "../Profile";
 
 class Header extends React.Component {
-  componentDidMount() {}
-
   renderAuthButton = () => {
     const { history } = this.props;
 

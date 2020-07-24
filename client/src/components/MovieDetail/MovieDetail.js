@@ -8,16 +8,27 @@ import MovieInfo from "../MovieInfo/MovieInfo";
 import MovieRating from "../MovieRating";
 import Trailer from "../Trailer";
 import MainCasts from "../MainCasts";
-import { getListOfFavMovies, addFavoriteMovie } from "../../actions";
+import CommentList from "../CommentList";
+import {
+  getListOfFavMovies,
+  addFavoriteMovie,
+  fetchComments,
+} from "../../actions";
 import FavoriteButton from "../FavoriteButton";
+import CommentInput from "../CommentInput";
 
 class MovieDetail extends Component {
   state = { movie: null };
 
   // loading page: need to call fetch users and look into the favMovies first.
   componentDidMount() {
+    const path = this.props.location.pathname;
+    const regex = /\d+/;
+    const movieId = path.match(regex).join("");
+    console.log(movieId);
     this.props.getListOfFavMovies();
-    this.fetchMovie(this.props.location.pathname);
+    this.props.fetchComments(movieId);
+    this.fetchMovie(path);
   }
 
   fetchMovie = async (pathname) => {
@@ -92,8 +103,22 @@ class MovieDetail extends Component {
         <MovieInfo movie={movie}></MovieInfo>
         <Trailer pathname={this.props.location.pathname}></Trailer>
         <MainCasts pathname={this.props.location.pathname}></MainCasts>
+        {this.renderComments()}
+        <CommentList comments={this.props.comments}></CommentList>
       </Fragment>
     );
+  };
+
+  renderComments = () => {
+    if (this.state.movie && this.props.auth) {
+      const movieId = this.state.movie.id;
+      return (
+        <CommentInput
+          userId={this.props.auth.id}
+          movieId={movieId}
+        ></CommentInput>
+      );
+    }
   };
 
   render() {
@@ -105,10 +130,12 @@ const mapStateToProps = (state) => {
   return {
     auth: state.auth,
     favMovies: state.favMovies,
+    comments: state.comments,
   };
 };
 
 export default connect(mapStateToProps, {
   getListOfFavMovies,
   addFavoriteMovie,
+  fetchComments,
 })(MovieDetail);

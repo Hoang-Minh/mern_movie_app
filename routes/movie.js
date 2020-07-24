@@ -8,15 +8,15 @@ const User = require("../models/user");
 router.post("/api/user/movies", authenticateToken, async (req, res) => {
   try {
     const { id } = req.user;
-    console.log(id);
+    //console.log(id);
     const userInDb = await User.findById(id);
 
     const { title, movieId, plot, poster } = req.body;
-    console.log(movieId);
+    //console.log(movieId);
     let movie;
     const exists = await Movie.exists({ movieId });
 
-    console.log("exists", exists);
+    //console.log("exists", exists);
 
     if (!exists) {
       movie = new Movie({ title, movieId, plot, poster });
@@ -46,7 +46,7 @@ router.delete(
       const movieInDb = await Movie.findOne({ movieId });
 
       if (!movieInDb) return res.status(404).send("Movie not found");
-      console.log("movie deleted", movieInDb);
+      //console.log("movie deleted", movieInDb);
       movieInDb.remove();
 
       await User.updateOne(
@@ -64,8 +64,25 @@ router.delete(
 // get all fav movies for this current user
 router.get("/api/user/movies", authenticateToken, async (req, res) => {
   const movies = await Movie.find({ users: req.user.id });
-  console.log(movies);
+  //console.log(movies);
   res.json(movies);
+});
+
+// FETCH_COMMENTS for a movie
+router.get("/api/movies/:movieId", async (req, res) => {
+  try {
+    console.log("/api/movies/:movieId");
+    //console.log("req.params", req.params.movieId);
+    const { movieId } = req.params;
+    console.log(movieId);
+    const movieInDb = await Movie.findOne({ movieId });
+    if (movieInDb) {
+      console.log("movieInDb", movieInDb);
+      res.status(200).send(movieInDb.comments);
+    }
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;

@@ -7,6 +7,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const indexRoutes = require("./routes/index");
 const movieRoutes = require("./routes/movie");
+const commentRoutes = require("./routes/comment");
 const keys = require("./config/keys");
 
 require("./config/passport")(passport);
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(commentRoutes);
 app.use(movieRoutes);
 app.use(indexRoutes);
 

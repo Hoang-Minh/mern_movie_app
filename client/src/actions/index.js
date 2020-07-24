@@ -6,6 +6,8 @@ import {
   SIGN_OUT,
   DELETE_FAVORITE_MOVIE,
   FAVORITE_MOVIES,
+  ADD_COMMENT,
+  FETCH_COMMENTS,
 } from "./types";
 import _ from "lodash";
 
@@ -14,6 +16,8 @@ export const checkLoggedIn = () => async (dispatch) => {
     const response = await axios.get("/api/check_logged_in", {
       withCredentials: true,
     });
+
+    console.log(response);
 
     dispatch({ type: FETCH_USER, payload: response.data });
   } catch (error) {
@@ -89,4 +93,22 @@ export const deleteFavoriteMovie = (movieId) => async (dispatch) => {
   const { data } = response;
   console.log("deleted movie", data);
   dispatch({ type: DELETE_FAVORITE_MOVIE, payload: data.movieInDb });
+};
+
+export const addComment = (userId, movieId, comment) => async (dispatch) => {
+  console.log("add comment");
+  console.log(comment);
+  const response = await axios.post(
+    `/api/users/${userId}/movies/${movieId}/comments`,
+    { text: comment.trim() }
+  );
+  console.log("response", response);
+  dispatch({ type: ADD_COMMENT, payload: response.data });
+};
+
+export const fetchComments = (movieId) => async (dispatch) => {
+  console.log(movieId);
+  const response = await axios.get(`/api/movies/${movieId}`);
+  console.log(response);
+  dispatch({ type: FETCH_COMMENTS, payload: response.data });
 };

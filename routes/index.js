@@ -54,10 +54,11 @@ router.post(
   }),
   async function (req, res) {
     try {
-      console.log("current user", req.user);
+      console.log("/api/signin");
+      //console.log("current user", req.user);
 
       const { id } = req.user;
-      console.log("id", id);
+      //console.log("id", id);
 
       const foundUser = await User.findById(id);
 
@@ -81,6 +82,7 @@ router.post(
 );
 
 router.get("/api/check_logged_in", authenticateToken, async (req, res) => {
+  console.log("/api/check_logged_in");
   const { id } = req.user;
   try {
     const user = await User.findById(id);
@@ -95,11 +97,13 @@ router.get("/api/check_logged_in", authenticateToken, async (req, res) => {
 });
 
 router.get("/api/signout", (req, res) => {
+  consolg.log("/api/signout");
   req.logOut();
   res.json({});
 });
 
 router.get("/api/clear_cookies", (req, res) => {
+  console.log("/api/clear_cookies");
   res.clearCookie("token");
   res.send("cookies cleared");
 });
