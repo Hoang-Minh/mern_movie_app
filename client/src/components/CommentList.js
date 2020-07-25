@@ -1,14 +1,6 @@
 import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
-import {
-  Grid,
-  Typography,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-} from "@material-ui/core";
+import { List, Typography, Paper, Container } from "@material-ui/core";
 import Comment from "./Comment";
 
 class CommentList extends Component {
@@ -21,7 +13,16 @@ class CommentList extends Component {
   render() {
     console.log(this.props.comments);
 
-    return <div style={{ clear: "right" }}>{this.renderComments()}</div>;
+    return (
+      <div style={{ clear: "right" }}>
+        <Typography variant="h4" style={{ marginBottom: "2rem" }}>
+          Comment
+        </Typography>
+        <Paper elevation={0} style={{ padding: "2rempx 1rem" }}>
+          {this.renderComments()}
+        </Paper>
+      </div>
+    );
   }
 }
 
