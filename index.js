@@ -45,8 +45,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(commentRoutes);
-app.use(movieRoutes);
+app.use("/api/users/:userId/movies/", commentRoutes);
+app.use("/api/user/movies", movieRoutes);
 app.use(indexRoutes);
 
 if (process.env.NODE_ENV === "production") {

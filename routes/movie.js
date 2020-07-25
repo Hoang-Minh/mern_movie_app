@@ -5,7 +5,7 @@ const Movie = require("../models/movie");
 const User = require("../models/user");
 
 // add fav movie to a current user
-router.post("/api/user/movies", authenticateToken, async (req, res) => {
+router.post("/", authenticateToken, async (req, res) => {
   try {
     const { id } = req.user;
     //console.log(id);
@@ -36,42 +36,38 @@ router.post("/api/user/movies", authenticateToken, async (req, res) => {
 });
 
 // delete fav movie
-router.delete(
-  "/api/user/movies/:movieId",
-  authenticateToken,
-  async (req, res) => {
-    try {
-      const { movieId } = req.params;
+router.delete("/:movieId", authenticateToken, async (req, res) => {
+  try {
+    const { movieId } = req.params;
 
-      const movieInDb = await Movie.findOne({ movieId });
+    const movieInDb = await Movie.findOne({ movieId });
 
-      if (!movieInDb) return res.status(404).send("Movie not found");
-      //console.log("movie deleted", movieInDb);
-      movieInDb.remove();
+    if (!movieInDb) return res.status(404).send("Movie not found");
+    //console.log("movie deleted", movieInDb);
+    movieInDb.remove();
 
-      await User.updateOne(
-        {},
-        { $pull: { favMovies: movieInDb.id } },
-        { new: true }
-      );
-      res.status(200).json({ movieInDb });
-    } catch (error) {
-      console.log(error);
-    }
+    await User.updateOne(
+      {},
+      { $pull: { favMovies: movieInDb.id } },
+      { new: true }
+    );
+    res.status(200).json({ movieInDb });
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
 // get all fav movies for this current user
-router.get("/api/user/movies", authenticateToken, async (req, res) => {
+router.get("/", authenticateToken, async (req, res) => {
   const movies = await Movie.find({ users: req.user.id });
   //console.log(movies);
   res.json(movies);
 });
 
 // FETCH_COMMENTS for a movie
-router.get("/api/movies/:movieId", async (req, res) => {
+router.get("/:movieId", async (req, res) => {
   try {
-    console.log("/api/movies/:movieId");
+    console.log("/api/user/movies/:movieId");
     //console.log("req.params", req.params.movieId);
     const { movieId } = req.params;
     console.log(movieId);

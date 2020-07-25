@@ -109,7 +109,7 @@ export const addComment = (userId, movie, comment) => async (dispatch) => {
 
 export const fetchComments = (movieId) => async (dispatch) => {
   console.log("fetch comments");
-  const response = await axios.get(`/api/movies/${movieId}`);
+  const response = await axios.get(`/api/user/movies/${movieId}`);
   console.log("fetch comments", response.data);
 
   dispatch({ type: FETCH_COMMENTS, payload: response.data });
