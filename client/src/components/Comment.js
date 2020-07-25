@@ -7,14 +7,14 @@ class Comment extends Component {
     const {
       text,
       createdAt,
-      author: { username },
+      author: { username, avatar },
     } = this.props.comment;
 
     return (
       <Fragment>
         <Grid container justify="flex-start" wrap="nowrap" spacing={2}>
           <Grid item>
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+            <Avatar alt={username} src={avatar} />
           </Grid>
           <Grid item xs zeroMinWidth>
             <Typography variant="h6" style={{ margin: 0, textAlign: "left" }}>

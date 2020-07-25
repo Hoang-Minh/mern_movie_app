@@ -37,7 +37,11 @@ router.post("/:movieId/comments", authenticateToken, async (req, res) => {
 
   const comment = await Comment.create({
     text,
-    author: { id: req.user.id, username: userInDb.username },
+    author: {
+      id: req.user.id,
+      username: userInDb.username,
+      avatar: userInDb.avatar,
+    },
   });
 
   createdMovie.comments.push(comment);
