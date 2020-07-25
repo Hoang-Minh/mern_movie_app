@@ -79,6 +79,8 @@ router.get("/api/movies/:movieId", async (req, res) => {
       .populate("comments")
       .populate("author")
       .exec();
+
+    if (!movieInDb) return res.status(200).json([]);
     const comments = movieInDb.comments;
     console.log("comments", comments);
     res.status(200).json(comments);

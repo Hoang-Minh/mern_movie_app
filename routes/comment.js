@@ -22,7 +22,7 @@ router.post(
     let createdMovie;
 
     if (!movieInDb) {
-      movie = await Movie.create({
+      createdMovie = await Movie.create({
         title: movie.title,
         movieId: movie.id,
         poster: movie.poster_path,
