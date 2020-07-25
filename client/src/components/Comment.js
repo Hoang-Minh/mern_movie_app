@@ -9,10 +9,12 @@ import {
   ListItemText,
   Divider,
 } from "@material-ui/core";
+import moment from "moment";
 
 const Comment = ({ comment }) => {
   const username = comment.author.username;
   const text = comment.text;
+  //createdAt
   console.log(username, text);
   return (
     <Fragment>
@@ -31,7 +33,7 @@ const Comment = ({ comment }) => {
             variant="body2"
             style={{ textAlign: "left", color: "gray", marginTop: "1rem" }}
           >
-            posted 1 minute ago
+            posted {moment(comment.createdAt).fromNow()}
           </Typography>
         </Grid>
       </Grid>
