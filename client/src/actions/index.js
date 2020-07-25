@@ -95,20 +95,22 @@ export const deleteFavoriteMovie = (movieId) => async (dispatch) => {
   dispatch({ type: DELETE_FAVORITE_MOVIE, payload: data.movieInDb });
 };
 
-export const addComment = (userId, movieId, comment) => async (dispatch) => {
+export const addComment = (userId, movie, comment) => async (dispatch) => {
   console.log("add comment");
   console.log(comment);
+  const movieId = movie.id;
   const response = await axios.post(
     `/api/users/${userId}/movies/${movieId}/comments`,
-    { text: comment.trim() }
+    { text: comment.trim(), movie }
   );
-  console.log("response", response);
+  console.log("response from add Comment", response.data);
   dispatch({ type: ADD_COMMENT, payload: response.data });
 };
 
 export const fetchComments = (movieId) => async (dispatch) => {
-  console.log(movieId);
+  console.log("fetch comments");
   const response = await axios.get(`/api/movies/${movieId}`);
-  console.log(response);
+  console.log("fetch comments", response.data);
+
   dispatch({ type: FETCH_COMMENTS, payload: response.data });
 };

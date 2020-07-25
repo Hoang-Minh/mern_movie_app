@@ -75,11 +75,13 @@ router.get("/api/movies/:movieId", async (req, res) => {
     //console.log("req.params", req.params.movieId);
     const { movieId } = req.params;
     console.log(movieId);
-    const movieInDb = await Movie.findOne({ movieId });
-    if (movieInDb) {
-      console.log("movieInDb", movieInDb);
-      res.status(200).send(movieInDb.comments);
-    }
+    const movieInDb = await Movie.findOne({ movieId })
+      .populate("comments")
+      .populate("author")
+      .exec();
+    const comments = movieInDb.comments;
+    console.log("comments", comments);
+    res.status(200).json(comments);
   } catch (error) {
     console.log(error);
   }

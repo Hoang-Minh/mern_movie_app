@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import axios from "axios";
 import { API_KEY, API_URL } from "../Config";
 import MovieBanner from "../MovieBanner/MovieBanner";
@@ -80,6 +80,30 @@ class MovieDetail extends Component {
     }
   };
 
+  renderComments = () => {
+    if (!this.state.movie) return null;
+    if (!this.props.auth) {
+      return (
+        <Typography
+          align="left"
+          display="block"
+          variant="button"
+          style={{ margin: "2rem 0 auto" }}
+          gutterBottom
+        >
+          Log in to share your comment about the movie
+        </Typography>
+      );
+    }
+
+    return (
+      <CommentInput
+        userId={this.props.auth.id}
+        movie={this.state.movie}
+      ></CommentInput>
+    );
+  };
+
   renderContent = () => {
     const { movie } = this.state;
     if (!movie) return null;
@@ -104,21 +128,9 @@ class MovieDetail extends Component {
         <Trailer pathname={this.props.location.pathname}></Trailer>
         <MainCasts pathname={this.props.location.pathname}></MainCasts>
         {this.renderComments()}
-        <CommentList comments={this.props.comments}></CommentList>
+        <CommentList></CommentList>
       </Fragment>
     );
-  };
-
-  renderComments = () => {
-    if (this.state.movie && this.props.auth) {
-      const movieId = this.state.movie.id;
-      return (
-        <CommentInput
-          userId={this.props.auth.id}
-          movieId={movieId}
-        ></CommentInput>
-      );
-    }
   };
 
   render() {

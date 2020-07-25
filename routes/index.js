@@ -97,7 +97,7 @@ router.get("/api/check_logged_in", authenticateToken, async (req, res) => {
 });
 
 router.get("/api/signout", (req, res) => {
-  consolg.log("/api/signout");
+  console.log("/api/signout");
   req.logOut();
   res.json({});
 });

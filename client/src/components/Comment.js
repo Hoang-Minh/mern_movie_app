@@ -9,7 +9,10 @@ import {
   ListItemText,
 } from "@material-ui/core";
 
-const Comment = () => {
+const Comment = ({ comment }) => {
+  const username = comment.author.username;
+  const text = comment.text;
+  console.log(username, text);
   return (
     <Fragment>
       <List>
@@ -17,10 +20,7 @@ const Comment = () => {
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
           </ListItemAvatar>
-          <ListItemText
-            primary="Minh Nguyen"
-            secondary="I'll be in your neighborhood doing errands this…"
-          />
+          <ListItemText primary={username} secondary={text} />
         </ListItem>
       </List>
     </Fragment>

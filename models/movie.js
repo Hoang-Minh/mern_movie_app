@@ -19,10 +19,11 @@ const movieSchema = new Schema(
         ref: "users",
       },
     ],
+
     comments: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
+        ref: "comment",
       },
     ],
     // or comments: [commentSchema] ???

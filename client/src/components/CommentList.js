@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React, { Fragment, Component } from "react";
+import { connect } from "react-redux";
 import {
   Grid,
   Typography,
@@ -10,12 +11,24 @@ import {
 } from "@material-ui/core";
 import Comment from "./Comment";
 
-const CommentList = ({ comments }) => {
-  console.log("CommentList", comments.length);
-  const renderList = () => {
-    return comments.length > 0 && <Comment></Comment>;
+class CommentList extends Component {
+  renderComments = () => {
+    return this.props.comments.map((comment, key) => (
+      <Comment key={key} comment={comment}></Comment>
+    ));
   };
-  return <div style={{ clear: "right" }}>{renderList()}</div>;
+
+  render() {
+    console.log(this.props.comments);
+
+    return <div style={{ clear: "right" }}>{this.renderComments()}</div>;
+  }
+}
+
+const mapStateToProps = (state) => {
+  return {
+    comments: state.comments,
+  };
 };
 
-export default CommentList;
+export default connect(mapStateToProps)(CommentList);
