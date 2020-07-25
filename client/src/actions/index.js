@@ -3,12 +3,12 @@ import {
   FETCH_USER,
   ADD_USER,
   ADD_FAVORITE_MOVIE,
-  SIGN_OUT,
   DELETE_FAVORITE_MOVIE,
   FAVORITE_MOVIES,
   ADD_COMMENT,
   FETCH_COMMENTS,
   DELETE_COMMENT,
+  CLEAR_ALL,
 } from "./types";
 
 export const checkLoggedIn = () => async (dispatch) => {
@@ -60,7 +60,8 @@ export const signOutUser = (history) => async (dispatch) => {
     console.log("response from signout", response.data);
 
     history.push("/");
-    dispatch({ type: SIGN_OUT });
+    dispatch({ type: CLEAR_ALL });
+    // dispatch({ typpe: RESET_COMMENTS });
   } catch (error) {
     console.log(error);
   }

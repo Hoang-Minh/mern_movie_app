@@ -1,4 +1,9 @@
-import { ADD_COMMENT, FETCH_COMMENTS, DELETE_COMMENT } from "../actions/types";
+import {
+  ADD_COMMENT,
+  FETCH_COMMENTS,
+  DELETE_COMMENT,
+  CLEAR_ALL,
+} from "../actions/types";
 
 export default (state = [], action) => {
   console.log("reducer payload", action.payload);
@@ -10,6 +15,8 @@ export default (state = [], action) => {
       return action.payload;
     case DELETE_COMMENT:
       return state.filter((comment) => comment._id !== action.payload._id);
+    case CLEAR_ALL:
+      return undefined;
     default:
       return state;
   }

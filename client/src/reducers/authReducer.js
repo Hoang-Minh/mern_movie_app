@@ -1,11 +1,11 @@
-import { FETCH_USER, SIGN_OUT } from "../actions/types";
+import { FETCH_USER, CLEAR_ALL } from "../actions/types";
 
 export default function (state = null, action) {
   switch (action.type) {
     case FETCH_USER:
       return { ...state, ...action.payload };
-    case SIGN_OUT:
-      return null;
+    case CLEAR_ALL:
+      return undefined;
     default:
       return state;
   }
