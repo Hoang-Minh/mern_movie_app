@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import { Box, Typography } from "@material-ui/core";
 import axios from "axios";
 import { API_KEY, API_URL } from "../Config";
@@ -16,6 +17,7 @@ import {
 } from "../../actions";
 import FavoriteButton from "../FavoriteButton";
 import CommentInput from "../CommentInput";
+import SocialMediaButtons from "../SocialMediaButtons";
 
 class MovieDetail extends Component {
   state = { movie: null };
@@ -51,10 +53,12 @@ class MovieDetail extends Component {
       btnText = "Added To Favorite";
     }
     return (
-      <FavoriteButton
-        buttonText={btnText}
-        onFavBtnTextChange={this.onClickFavButton}
-      ></FavoriteButton>
+      <Fragment>
+        <FavoriteButton
+          buttonText={btnText}
+          onFavBtnTextChange={this.onClickFavButton}
+        ></FavoriteButton>
+      </Fragment>
     );
   };
 
@@ -125,7 +129,10 @@ class MovieDetail extends Component {
           <MovieRating size={`large`} rating={movie.vote_average}></MovieRating>
           {/* here is the fav button */}
           {this.renderFavButton()}
-          <Box style={{ marginTop: "0.5rem" }}>{movie.vote_count} votes</Box>
+          <SocialMediaButtons
+            path={this.props.history.location.pathname}
+          ></SocialMediaButtons>
+          {/* <Box style={{ marginTop: "0.5rem" }}>{movie.vote_count} votes</Box> */}
         </Box>
         <MovieInfo movie={movie}></MovieInfo>
         <Trailer pathname={this.props.location.pathname}></Trailer>
@@ -153,4 +160,4 @@ export default connect(mapStateToProps, {
   getListOfFavMovies,
   addFavoriteMovie,
   fetchComments,
-})(MovieDetail);
+})(withRouter(MovieDetail));
