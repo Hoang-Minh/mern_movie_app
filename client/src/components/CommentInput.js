@@ -1,20 +1,6 @@
 import React, { Fragment, Component } from "react";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
-import {
-  Grid,
-  Typography,
-  TextareaAutosize,
-  Button,
-  Icon,
-  Box,
-  List,
-  ListItem,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
-} from "@material-ui/core";
-
+import { TextareaAutosize, Button, Icon, Box } from "@material-ui/core";
 import { addComment } from "../actions";
 
 class CommentInput extends Component {

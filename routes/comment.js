@@ -1,6 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { authenticateToken } = require("../middlewares/auth");
+const {
+  authenticateToken,
+  checkCommentOwnership,
+} = require("../middlewares/auth");
 const User = require("../models/user");
 const Movie = require("../models/movie");
 const Comment = require("../models/comment");
@@ -47,5 +50,30 @@ router.post("/:movieId/comments", authenticateToken, async (req, res) => {
     .exec();
   res.status(200).json(commentInDb);
 });
+
+router.delete(
+  "/:movieId/comments/:commentId",
+  authenticateToken,
+  checkCommentOwnership,
+  async (req, res) => {
+    try {
+      console.log("delete route");
+      const foundComment = await Comment.findById(req.params.commentId);
+      foundComment.remove(); // does not need to check here since the checkCommentOwnership has done it
+      const movie = await Movie.findOne({ movieId: req.params.movieId });
+      if (!movie) return res.status(404).send({ error: "movie not found" });
+
+      await Movie.updateOne(
+        {},
+        { $pull: { comments: req.params.commentId } },
+        { new: true }
+      );
+      console.log("comment removed", foundComment);
+      res.status(200).json(foundComment);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
 
 module.exports = router;

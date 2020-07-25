@@ -8,8 +8,8 @@ import {
   FAVORITE_MOVIES,
   ADD_COMMENT,
   FETCH_COMMENTS,
+  DELETE_COMMENT,
 } from "./types";
-import _ from "lodash";
 
 export const checkLoggedIn = () => async (dispatch) => {
   try {
@@ -113,4 +113,17 @@ export const fetchComments = (movieId) => async (dispatch) => {
   console.log("fetch comments", response.data);
 
   dispatch({ type: FETCH_COMMENTS, payload: response.data });
+};
+
+export const deleteComment = (userId, movieId, commentId) => async (
+  dispatch
+) => {
+  console.log("delete comment");
+  console.log(userId, movieId, commentId);
+  const response = await axios.delete(
+    `/api/users/${userId}/movies/${movieId}/comments/${commentId}`
+  );
+
+  console.log("delete comment", response.data);
+  dispatch({ type: DELETE_COMMENT, payload: response.data });
 };

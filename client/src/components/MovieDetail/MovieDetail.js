@@ -26,7 +26,7 @@ class MovieDetail extends Component {
     const regex = /\d+/;
     const movieId = path.match(regex).join("");
     console.log(movieId);
-    this.props.getListOfFavMovies();
+    this.props.getListOfFavMovies(); // only run this if you are logged in. Need to fix it !!!!!
     this.props.fetchComments(movieId);
     this.fetchMovie(path);
   }
@@ -128,7 +128,7 @@ class MovieDetail extends Component {
         <Trailer pathname={this.props.location.pathname}></Trailer>
         <MainCasts pathname={this.props.location.pathname}></MainCasts>
         {this.renderComments()}
-        <CommentList></CommentList>
+        <CommentList movieId={this.state.movie.id}></CommentList>
       </Fragment>
     );
   };

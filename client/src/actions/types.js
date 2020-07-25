@@ -8,3 +8,4 @@ export const FAVORITE_MOVIES = "FAVORITE_MOVIES_USERS";
 // per movie, not per user !!!
 export const ADD_COMMENT = "ADD_COMMENT";
 export const FETCH_COMMENTS = "FETCH_COMMENTS";
+export const DELETE_COMMENT = "DELETE_COMMENT";
