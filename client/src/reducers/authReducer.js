@@ -5,7 +5,7 @@ export default function (state = null, action) {
     case FETCH_USER:
       return { ...state, ...action.payload };
     case CLEAR_ALL:
-      return undefined;
+      return null;
     default:
       return state;
   }

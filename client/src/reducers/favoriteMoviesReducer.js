@@ -4,8 +4,7 @@ import {
   DELETE_FAVORITE_MOVIE,
   CLEAR_ALL,
 } from "../actions/types";
-// import _ from "lodash";
-// state will be list of movies added by this user
+
 export default function (state = [], action) {
   switch (action.type) {
     case FAVORITE_MOVIES:
@@ -15,7 +14,7 @@ export default function (state = [], action) {
     case DELETE_FAVORITE_MOVIE:
       return state.filter((movie) => movie._id !== action.payload._id);
     case CLEAR_ALL:
-      return undefined;
+      return null;
     default:
       return state;
   }
