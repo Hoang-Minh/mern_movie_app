@@ -16,3 +16,4 @@ A MERN stack app that allows user to log in and pick or remove their favorite mo
 1. Comment would be implemented for each movie - done
 2. Share movie on social network - done
 3. Add connect flash messages to front end
+4. Add Search bar to search for movie
