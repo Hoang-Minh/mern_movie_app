@@ -6,7 +6,7 @@ const SocialMediaButtons = ({ path }) => {
   console.log(url);
   return (
     <FacebookShareButton url={url}>
-      <FacebookIcon></FacebookIcon>
+      <FacebookIcon round={true}></FacebookIcon>
     </FacebookShareButton>
   );
 };

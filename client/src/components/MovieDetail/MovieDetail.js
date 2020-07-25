@@ -127,12 +127,14 @@ class MovieDetail extends Component {
             {movie.tagline}
           </Box>
           <MovieRating size={`large`} rating={movie.vote_average}></MovieRating>
+          <Box component="div" style={{ marginTop: "0.5rem" }}>
+            {movie.vote_count} votes
+          </Box>
           {/* here is the fav button */}
           {this.renderFavButton()}
           <SocialMediaButtons
             path={this.props.history.location.pathname}
           ></SocialMediaButtons>
-          {/* <Box style={{ marginTop: "0.5rem" }}>{movie.vote_count} votes</Box> */}
         </Box>
         <MovieInfo movie={movie}></MovieInfo>
         <Trailer pathname={this.props.location.pathname}></Trailer>
