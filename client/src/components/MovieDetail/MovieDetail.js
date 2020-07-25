@@ -20,15 +20,18 @@ import CommentInput from "../CommentInput";
 class MovieDetail extends Component {
   state = { movie: null };
 
-  // loading page: need to call fetch users and look into the favMovies first.
   componentDidMount() {
     const path = this.props.location.pathname;
     const regex = /\d+/;
     const movieId = path.match(regex).join("");
     console.log(movieId);
-    this.props.getListOfFavMovies(); // only run this if you are logged in. Need to fix it !!!!!
     this.props.fetchComments(movieId);
     this.fetchMovie(path);
+
+    // only fetch favorite movies when user logged in
+    if (this.props.auth) {
+      this.props.getListOfFavMovies();
+    }
   }
 
   fetchMovie = async (pathname) => {
