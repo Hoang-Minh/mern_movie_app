@@ -5,10 +5,13 @@ const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
+const morgan = require("morgan");
+const helmet = require("helmet");
 const indexRoutes = require("./routes/index");
 const movieRoutes = require("./routes/movie");
 const commentRoutes = require("./routes/comment");
 const keys = require("./config/keys");
+const errorMiddlewares = require("./middlewares/error");
 
 require("./config/passport")(passport);
 
@@ -23,6 +26,8 @@ mongoose.connect(keys.MONGO_URI, {
 
 const db = mongoose.connection;
 
+app.use(morgan("common"));
+app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
@@ -48,6 +53,9 @@ app.use((req, res, next) => {
 app.use("/api/users/:userId/movies/", commentRoutes);
 app.use("/api/user/movies", movieRoutes);
 app.use(indexRoutes);
+
+app.use(errorMiddlewares.notFound);
+app.use(errorMiddlewares.errorHandler);
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up production assets
