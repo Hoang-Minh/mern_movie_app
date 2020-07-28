@@ -49,6 +49,9 @@ router.post("/api/signup", async (req, res, next) => {
 
     res.status(200).send({ token, id, username: userInDb.username });
   } catch (error) {
+    if (error.name === "ValidationError") {
+      res.status(422);
+    }
     next(error);
   }
 });

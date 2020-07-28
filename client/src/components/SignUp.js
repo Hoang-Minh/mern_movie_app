@@ -61,9 +61,12 @@ const SignUp = () => {
       const { data } = response;
       console.log("signup User", data);
 
-      toast.success("Thanks for signing up", {
-        position: toast.POSITION.TOP_RIGHT,
-      });
+      toast.success(
+        "Thanks for signing up. You can log in now with your newly account now",
+        {
+          position: toast.POSITION.TOP_RIGHT,
+        }
+      );
     } catch (error) {
       console.log(error.response.data.message);
       toast.error(error.response.data.message, {
@@ -71,10 +74,6 @@ const SignUp = () => {
       });
     }
   };
-
-  // const resetValues = () => {
-  //   this.setState({ initialValues: this.initialValues });
-  // };
 
   const rendereContent = () => {
     return (
@@ -98,7 +97,7 @@ const SignUp = () => {
             <Formik
               initialValues={initialValues}
               validationSchema={validationSchema}
-              onSubmit={(values, { setSubmitting }) => {
+              onSubmit={(values, { setSubmitting, resetForm }) => {
                 // same shape as initial values
                 const data = {
                   firstName: values.firstName,
@@ -109,8 +108,8 @@ const SignUp = () => {
                   avatar: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
                 };
                 signUpUser(data);
-                // .resetValues();
                 setSubmitting(false);
+                resetForm();
               }}
             >
               <Form autoComplete="off">
