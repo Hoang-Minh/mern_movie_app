@@ -1,17 +1,39 @@
 import React, { Fragment } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import { TextField } from "formik-material-ui";
-import { Typography, Button, Grid, Icon } from "@material-ui/core";
+import {
+  Typography,
+  Button,
+  Grid,
+  Icon,
+  Container,
+  Avatar,
+  CssBaseline,
+} from "@material-ui/core";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import moment from "moment";
 
-class SignUp extends React.Component {
-  state = { initialValues: this.initialValues };
+const useStyles = makeStyles((theme) => ({
+  container: {
+    marginTop: theme.spacing(5),
+  },
+  avatar: {
+    marginLeft: theme.spacing(7),
+    backgroundColor: theme.palette.secondary.main,
+  },
+}));
 
-  initialValues = {
+const SignUp = () => {
+  // state = { initialValues: this.initialValues };
+
+  const classes = useStyles();
+
+  const initialValues = {
     firstName: "",
     lastName: "",
     username: "",
@@ -20,7 +42,7 @@ class SignUp extends React.Component {
     confirmPassword: "",
   };
 
-  validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object().shape({
     firstName: Yup.string().required("First Name is required"),
     lastName: Yup.string().required("Last Name is required"),
     username: Yup.string().required("Username is required"),
@@ -33,7 +55,7 @@ class SignUp extends React.Component {
       .required("Confirm Password is required"),
   });
 
-  signUpUser = async (formValues) => {
+  const signUpUser = async (formValues) => {
     try {
       const response = await axios.post("/api/signup", formValues);
       const { data } = response;
@@ -50,13 +72,14 @@ class SignUp extends React.Component {
     }
   };
 
-  resetValues = () => {
-    this.setState({ initialValues: this.initialValues });
-  };
+  // const resetValues = () => {
+  //   this.setState({ initialValues: this.initialValues });
+  // };
 
-  rendereContent = () => {
+  const rendereContent = () => {
     return (
-      <Fragment>
+      <Container component="main" className={classes.container}>
+        <CssBaseline />
         <ToastContainer></ToastContainer>
         <Grid
           container
@@ -66,12 +89,15 @@ class SignUp extends React.Component {
           justify="center"
         >
           <Grid item xs={12}>
-            <Typography variant="h2">Sign Up</Typography>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography variant="h3">Sign up</Typography>
           </Grid>
           <Grid item md={6} xs={6}>
             <Formik
-              initialValues={this.initialValues}
-              validationSchema={this.validationSchema}
+              initialValues={initialValues}
+              validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 // same shape as initial values
                 const data = {
@@ -82,8 +108,8 @@ class SignUp extends React.Component {
                   password: values.password,
                   avatar: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
                 };
-                this.signUpUser(data);
-                this.resetValues();
+                signUpUser(data);
+                // .resetValues();
                 setSubmitting(false);
               }}
             >
@@ -166,13 +192,11 @@ class SignUp extends React.Component {
             </Formik>
           </Grid>
         </Grid>
-      </Fragment>
+      </Container>
     );
   };
 
-  render() {
-    return <div>{this.rendereContent()}</div>;
-  }
-}
+  return <div>{rendereContent()}</div>;
+};
 
 export default SignUp;
