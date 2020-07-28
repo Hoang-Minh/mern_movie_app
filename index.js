@@ -53,8 +53,8 @@ app.use(
 app.use("/api/users/:userId/movies/", commentRoutes);
 app.use("/api/user/movies", movieRoutes);
 app.use(indexRoutes);
-app.use(errorMiddlewares.notFound);
-app.use(errorMiddlewares.errorHandler);
+// app.use(errorMiddlewares.notFound);
+// app.use(errorMiddlewares.errorHandler);
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up production assets
