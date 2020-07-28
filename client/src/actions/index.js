@@ -32,7 +32,7 @@ export const signUpUser = (formValues, history) => async (dispatch) => {
   try {
     const response = await axios.post("/api/signup", formValues);
     const { data } = response;
-    history.push("/signin");
+    // history.push("/signin");
     dispatch({ type: ADD_USER, payload: data.token ? true : false });
   } catch (error) {
     console.log(error);

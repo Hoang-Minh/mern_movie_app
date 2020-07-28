@@ -10,10 +10,14 @@ import {
   Icon,
   FormControlLabel,
   Checkbox,
+  Box,
 } from "@material-ui/core";
 import { FormikTextField } from "formik-material-fields";
 import { connect } from "react-redux";
 import { fetchUser } from "../actions";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 class SignIn extends React.Component {
   state = { rememberMe: false }; // this is the remember me checkbox
@@ -136,9 +140,42 @@ class SignIn extends React.Component {
     );
   };
 
+  renderNotification = () => {
+    console.log("render Notification", this.props.isSuccessfulRegistered);
+    if (!this.props.isSuccessfulRegistered) return null;
+    console.log(this.props.isSuccessfulRegistered.registered);
+    toast.success("Thanks for signing. Now you can proceed to log in.", {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: true,
+    });
+  };
+
+  renderPage = () => {
+    const { history } = this.props;
+
+    if (this.props.isSuccessfulRegistered) {
+      console.log("registered ", this.props.isSuccessfulRegistered);
+      return history.push("/");
+    } else {
+      return (
+        <Box component="div" style={{ marginTop: "3rem" }}>
+          {this.renderNotification()}
+          <ToastContainer></ToastContainer>
+          {this.rendereContent()}
+        </Box>
+      );
+    }
+  };
+
   render() {
-    return <div>{this.rendereContent()}</div>;
+    return <div>{this.renderPage()}</div>;
   }
 }
 
-export default connect(null, { fetchUser })(withRouter(SignIn));
+const mapStateToProps = (state) => {
+  return {
+    isSuccessfulRegistered: state.userStatus,
+  };
+};
+
+export default connect(mapStateToProps, { fetchUser })(withRouter(SignIn));
