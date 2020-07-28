@@ -33,8 +33,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = () => {
-  //state = { rememberMe: false }; // this is the remember me checkbox
-  const [rememberMe, setRememberMe] = useState(false);
+  const [state, setState] = useState({
+    checkedA: false,
+  });
   const classes = useStyles();
 
   const initialValues = {
@@ -51,9 +52,7 @@ const SignIn = () => {
   };
 
   const handleChange = (event) => {
-    console.log(event);
-    // this.setState({ rememberMe: event.target.checked });
-    setRememberMe({ rememberMe: event.target.value });
+    setState({ ...state, [event.target.name]: event.target.checked });
   };
 
   const validationSchema = Yup.object().shape({
@@ -93,14 +92,14 @@ const SignIn = () => {
                   //image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
                 };
 
-                if (rememberMe) {
-                  // checkbox
-                  localStorage.setItem("username", data.username);
-                  localStorage.setItem("password", data.password);
-                } else {
-                  localStorage.removeItem("username");
-                  localStorage.removeItem("password");
-                }
+                // if (rememberMe) {
+                //   // checkbox
+                //   localStorage.setItem("username", data.username);
+                //   localStorage.setItem("password", data.password);
+                // } else {
+                //   localStorage.removeItem("username");
+                //   localStorage.removeItem("password");
+                // }
 
                 // sign in
                 // this.props.fetchUser(data, history);
@@ -170,9 +169,10 @@ const SignIn = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          checked={state.checkedA}
                           onChange={handleChange}
+                          name="checkedA"
                           color="primary"
-                          checked={rememberMe}
                         />
                       }
                       label="Remember Me"
