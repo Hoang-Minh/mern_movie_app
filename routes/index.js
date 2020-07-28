@@ -7,12 +7,20 @@ const { generateAccessToken } = require("../util/token");
 const User = require("../models/user");
 const { authenticateToken } = require("../middlewares/auth");
 
-router.post("/api/signup", async (req, res) => {
+router.post("/api/signup", async (req, res, next) => {
   console.log("sign up route");
 
   try {
     const { username, email, password, firstName, lastName, avatar } = req.body;
     console.log(username, email, password);
+
+    // check if email has been registered
+    const hasUser = await User.exists({ email });
+
+    if (hasUser) {
+      res.status(400);
+      throw new Error("Email has been taken");
+    }
 
     const user = new User({
       username,
@@ -41,7 +49,7 @@ router.post("/api/signup", async (req, res) => {
 
     res.status(200).send({ token, id, username: userInDb.username });
   } catch (error) {
-    console.log(error);
+    next(error);
   }
 });
 

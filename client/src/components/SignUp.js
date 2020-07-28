@@ -1,15 +1,16 @@
 import React, { Fragment } from "react";
-import { withRouter } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { Typography, Button, Grid, Icon } from "@material-ui/core";
-import { connect } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import moment from "moment";
-import { signUpUser } from "../actions";
 import { TextField } from "formik-material-ui";
+import { Typography, Button, Grid, Icon } from "@material-ui/core";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import moment from "moment";
 
 class SignUp extends React.Component {
+  state = { initialValues: this.initialValues };
+
   initialValues = {
     firstName: "",
     lastName: "",
@@ -32,8 +33,28 @@ class SignUp extends React.Component {
       .required("Confirm Password is required"),
   });
 
+  signUpUser = async (formValues) => {
+    try {
+      const response = await axios.post("/api/signup", formValues);
+      const { data } = response;
+      console.log("signup User", data);
+
+      toast.success("Thanks for signing up", {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    } catch (error) {
+      console.log(error.response.data.message);
+      toast.error(error.response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
+
+  resetValues = () => {
+    this.setState({ initialValues: this.initialValues });
+  };
+
   rendereContent = () => {
-    const { history } = this.props;
     return (
       <Fragment>
         <ToastContainer></ToastContainer>
@@ -61,14 +82,9 @@ class SignUp extends React.Component {
                   password: values.password,
                   avatar: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
                 };
-
-                console.log("data before submitting", data);
-                console.log("before sending to signUpUser");
-                this.props.signUpUser(data, history);
+                this.signUpUser(data);
+                this.resetValues();
                 setSubmitting(false);
-
-                // check if registered successfull....
-                toast.success("Successful");
               }}
             >
               <Form autoComplete="off">
@@ -114,6 +130,7 @@ class SignUp extends React.Component {
                     <Field
                       name="password"
                       label="Password*"
+                      type="password"
                       variant="outlined"
                       fullWidth
                       component={TextField}
@@ -123,6 +140,7 @@ class SignUp extends React.Component {
                     <Field
                       name="confirmPassword"
                       label="Confirm Password*"
+                      type="password"
                       variant="outlined"
                       fullWidth
                       component={TextField}
@@ -157,4 +175,4 @@ class SignUp extends React.Component {
   }
 }
 
-export default connect(null, { signUpUser })(withRouter(SignUp));
+export default SignUp;

@@ -26,7 +26,7 @@ mongoose.connect(keys.MONGO_URI, {
 
 const db = mongoose.connection;
 
-app.use(morgan("common"));
+app.use(morgan("dev"));
 app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -43,17 +43,16 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  res.locals.currentUserTest = req.user;
-  res.locals.error = req.flash("error");
-  res.locals.success = req.flash("success");
-  next();
-});
+// app.use((req, res, next) => {
+//   res.locals.currentUserTest = req.user;
+//   res.locals.error = req.flash("error");
+//   res.locals.success = req.flash("success");
+//   next();
+// });
 
 app.use("/api/users/:userId/movies/", commentRoutes);
 app.use("/api/user/movies", movieRoutes);
 app.use(indexRoutes);
-
 app.use(errorMiddlewares.notFound);
 app.use(errorMiddlewares.errorHandler);
 
