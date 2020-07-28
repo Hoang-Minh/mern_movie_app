@@ -11,9 +11,9 @@ import FavoriteMovies from "./FavoriteMovies";
 import { checkLoggedIn } from "../actions";
 
 class App extends React.Component {
-  componentDidMount() {
-    this.props.checkLoggedIn();
-  }
+  // componentDidMount() {
+  //   this.props.checkLoggedIn();
+  // }
 
   render() {
     return (
@@ -24,8 +24,8 @@ class App extends React.Component {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/signup" exact component={SignUp} />
-            {/* <Route path="/signin" exact component={SignIn} />
-            <Route exact path="/movie/:movieId" component={MovieDetail} />
+            <Route path="/signin" exact component={SignIn} />
+            {/* <Route exact path="/movie/:movieId" component={MovieDetail} />
             <Route exact path="/fav_movies" component={FavoriteMovies} /> */}
           </Switch>
         </BrowserRouter>

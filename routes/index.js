@@ -66,13 +66,8 @@ router.post(
   async function (req, res) {
     try {
       console.log("/api/signin");
-      //console.log("current user", req.user);
-
       const { id } = req.user;
-      //console.log("id", id);
-
       const foundUser = await User.findById(id);
-
       const { username } = foundUser;
 
       const token = generateAccessToken({ id });
