@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 // import { withRouter } from "react-router-dom";
-import { Formik, Form, Field } from "formik";
+import { Formik, Form, Field, setNestedObjectValues } from "formik";
 import * as Yup from "yup";
 import {
   Typography,
@@ -9,7 +9,6 @@ import {
   Icon,
   FormControlLabel,
   Checkbox,
-  Box,
   Avatar,
   CssBaseline,
   Container,
@@ -33,9 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignIn = () => {
-  const [state, setState] = useState({
-    checkedA: false,
-  });
+  const [rememberMe, setRememberMe] = useState(false);
   const classes = useStyles();
 
   const initialValues = {
@@ -52,7 +49,7 @@ const SignIn = () => {
   };
 
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    setRememberMe(event.target.checked);
   };
 
   const validationSchema = Yup.object().shape({
@@ -92,14 +89,14 @@ const SignIn = () => {
                   //image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
                 };
 
-                // if (rememberMe) {
-                //   // checkbox
-                //   localStorage.setItem("username", data.username);
-                //   localStorage.setItem("password", data.password);
-                // } else {
-                //   localStorage.removeItem("username");
-                //   localStorage.removeItem("password");
-                // }
+                if (rememberMe) {
+                  // checkbox
+                  localStorage.setItem("username", data.username);
+                  localStorage.setItem("password", data.password);
+                } else {
+                  localStorage.removeItem("username");
+                  localStorage.removeItem("password");
+                }
 
                 // sign in
                 // this.props.fetchUser(data, history);
@@ -108,25 +105,6 @@ const SignIn = () => {
             >
               <Form autoComplete="off">
                 <Grid container spacing={2}>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      name="firstName"
-                      label="First Name*"
-                      variant="outlined"
-                      fullWidth
-                      autoFocus
-                      component={TextField}
-                    ></Field>
-                  </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <Field
-                      name="lastName"
-                      label="Last Name*"
-                      variant="outlined"
-                      fullWidth
-                      component={TextField}
-                    ></Field>
-                  </Grid>
                   <Grid item xs={12}>
                     <Field
                       name="username"
@@ -136,15 +114,7 @@ const SignIn = () => {
                       component={TextField}
                     ></Field>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      name="email"
-                      label="Email*"
-                      variant="outlined"
-                      fullWidth
-                      component={TextField}
-                    ></Field>
-                  </Grid>
+
                   <Grid item xs={12}>
                     <Field
                       name="password"
@@ -155,21 +125,12 @@ const SignIn = () => {
                       component={TextField}
                     ></Field>
                   </Grid>
-                  <Grid item xs={12}>
-                    <Field
-                      name="confirmPassword"
-                      label="Confirm Password*"
-                      type="password"
-                      variant="outlined"
-                      fullWidth
-                      component={TextField}
-                    ></Field>
-                  </Grid>
+
                   <Grid item xs={12} sm={6}>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={state.checkedA}
+                          checked={rememberMe}
                           onChange={handleChange}
                           name="checkedA"
                           color="primary"
