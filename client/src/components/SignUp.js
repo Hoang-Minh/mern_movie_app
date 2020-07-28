@@ -1,4 +1,11 @@
 import React from "react";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import axios from "axios";
+import moment from "moment";
+import { Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -12,11 +19,6 @@ import {
   Avatar,
   CssBaseline,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
-import moment from "moment";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,9 +31,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const SignUp = () => {
-  // state = { initialValues: this.initialValues };
-
   const classes = useStyles();
+  const user = useSelector((state) => state.auth);
 
   const initialValues = {
     firstName: "",
@@ -57,9 +58,7 @@ const SignUp = () => {
 
   const signUpUser = async (formValues) => {
     try {
-      const response = await axios.post("/api/signup", formValues);
-      const { data } = response;
-      console.log("signup User", data);
+      await axios.post("/api/signup", formValues);
 
       toast.success(
         "Thanks for signing up. You can log in now with your newly account now",
@@ -76,6 +75,9 @@ const SignUp = () => {
   };
 
   const rendereContent = () => {
+    if (user) {
+      return <Redirect to="/"></Redirect>;
+    }
     return (
       <Container component="main" className={classes.container}>
         <CssBaseline />

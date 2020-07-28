@@ -5,7 +5,7 @@ const router = express.Router();
 const key = require("../config/keys");
 const { generateAccessToken } = require("../util/token");
 const User = require("../models/user");
-const { authenticateToken } = require("../middlewares/auth");
+const { authenticateToken, checkNotLogin } = require("../middlewares/auth");
 
 router.post("/api/signup", async (req, res, next) => {
   console.log("sign up route");

@@ -11,9 +11,9 @@ import FavoriteMovies from "./FavoriteMovies";
 import { checkLoggedIn } from "../actions";
 
 class App extends React.Component {
-  // componentDidMount() {
-  //   this.props.checkLoggedIn();
-  // }
+  componentDidMount() {
+    this.props.checkLoggedIn();
+  }
 
   render() {
     return (
@@ -23,6 +23,9 @@ class App extends React.Component {
           {/* <NewHeader></NewHeader> */}
           <Switch>
             <Route path="/" exact component={Home} />
+            {/* <Route exact path="/">
+              {this.props.auth ? <Redirect to="/" /> : <SignUp />}
+            </Route> */}
             <Route path="/signup" exact component={SignUp} />
             <Route path="/signin" exact component={SignIn} />
             {/* <Route exact path="/movie/:movieId" component={MovieDetail} />
@@ -33,5 +36,11 @@ class App extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
+};
 
 export default connect(null, { checkLoggedIn })(App);

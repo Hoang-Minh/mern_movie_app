@@ -1,7 +1,12 @@
-import React, { useState } from "react";
-// import { withRouter } from "react-router-dom";
-import { Formik, Form, Field, setNestedObjectValues } from "formik";
+import React from "react";
+import { Redirect } from "react-router-dom";
+import { connect } from "react-redux";
+import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
+import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { TextField } from "formik-material-ui";
 import {
   Typography,
   Button,
@@ -12,16 +17,11 @@ import {
   Avatar,
   CssBaseline,
   Container,
+  withStyles,
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { TextField } from "formik-material-ui";
-import { makeStyles } from "@material-ui/core/styles";
-import { connect } from "react-redux";
 import { fetchUser } from "../actions";
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
   container: {
     marginTop: theme.spacing(5),
   },
@@ -29,13 +29,12 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(7),
     backgroundColor: theme.palette.secondary.main,
   },
-}));
+});
 
-const SignIn = () => {
-  const [rememberMe, setRememberMe] = useState(false);
-  const classes = useStyles();
+class SignIn extends React.Component {
+  state = { rememberMe: false };
 
-  const initialValues = {
+  initialValues = {
     username: localStorage.getItem("username")
       ? localStorage.getItem("username") // this is the remember me local storage
       : "",
@@ -44,22 +43,25 @@ const SignIn = () => {
       : "", // this is the remember me local storage
   };
 
-  const isRememberMe = () => {
-    return localStorage.getItem("rememberMe") ? true : false;
+  handleChange = (event) => {
+    console.log(event);
+    this.setState({ rememberMe: event.target.checked });
   };
 
-  const handleChange = (event) => {
-    setRememberMe(event.target.checked);
-  };
-
-  const validationSchema = Yup.object().shape({
+  validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
   });
 
-  const rendereContent = () => {
+  rendereContent = () => {
+    const { classes } = this.props;
+
+    if (this.props.auth) {
+      return <Redirect to="/"></Redirect>;
+    }
+
     return (
       <Container component="main" className={classes.container}>
         <CssBaseline />
@@ -79,8 +81,8 @@ const SignIn = () => {
           </Grid>
           <Grid item md={6} xs={6}>
             <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
+              initialValues={this.initialValues}
+              validationSchema={this.validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 // same shape as initial values
                 const data = {
@@ -89,7 +91,7 @@ const SignIn = () => {
                   //image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
                 };
 
-                if (rememberMe) {
+                if (this.state.rememberMe) {
                   // checkbox
                   localStorage.setItem("username", data.username);
                   localStorage.setItem("password", data.password);
@@ -99,7 +101,8 @@ const SignIn = () => {
                 }
 
                 // sign in
-                // this.props.fetchUser(data, history);
+                this.props.fetchUser(data, this.props.history);
+                // this.signInUser(data);
                 setSubmitting(false);
               }}
             >
@@ -130,8 +133,8 @@ const SignIn = () => {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={rememberMe}
-                          onChange={handleChange}
+                          checked={this.state.rememberMe}
+                          onChange={this.handleChange}
                           name="checkedA"
                           color="primary"
                         />
@@ -163,41 +166,17 @@ const SignIn = () => {
     );
   };
 
-  // const renderNotification = () => {
-  //   console.log("render Notification", this.props.isSuccessfulRegistered);
-  //   if (!this.props.isSuccessfulRegistered) return null;
-  //   console.log(this.props.isSuccessfulRegistered.registered);
-  //   toast.success("Thanks for signing. Now you can proceed to log in.", {
-  //     position: toast.POSITION.TOP_RIGHT,
-  //     autoClose: true,
-  //   });
-  // };
+  render() {
+    return <div>{this.rendereContent()}</div>;
+  }
+}
 
-  // const renderPage = () => {
-  //   const { history } = this.props;
-
-  //   if (this.props.isSuccessfulRegistered) {
-  //     console.log("registered ", this.props.isSuccessfulRegistered);
-  //     return history.push("/");
-  //   } else {
-  //     return (
-  //       <Box component="div" style={{ marginTop: "3rem" }}>
-  //         {this.renderNotification()}
-  //         <ToastContainer></ToastContainer>
-  //         {this.rendereContent()}
-  //       </Box>
-  //     );
-  //   }
-  // };
-
-  return <div>{rendereContent()}</div>;
+const mapStateToProps = (state) => {
+  return {
+    auth: state.auth,
+  };
 };
 
-// const mapStateToProps = (state) => {
-//   return {
-//     isSuccessfulRegistered: state.userStatus,
-//   };
-// };
-
-// export default connect(mapStateToProps, { fetchUser })(withRouter(SignIn));
-export default SignIn;
+export default connect(mapStateToProps, { fetchUser })(
+  withStyles(styles)(SignIn)
+);
