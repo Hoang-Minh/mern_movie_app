@@ -53,8 +53,6 @@ app.use(
 app.use("/api/users/:userId/movies/", commentRoutes);
 app.use("/api/user/movies", movieRoutes);
 app.use(indexRoutes);
-app.use(errorMiddlewares.notFound);
-app.use(errorMiddlewares.errorHandler);
 
 if (process.env.NODE_ENV === "production") {
   // Express will serve up production assets
@@ -67,6 +65,9 @@ if (process.env.NODE_ENV === "production") {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 }
+
+app.use(errorMiddlewares.notFound);
+app.use(errorMiddlewares.errorHandler);
 
 db.once("open", () => console.log("Database connected")).on(
   "error",
