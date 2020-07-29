@@ -10,10 +10,13 @@ A MERN stack app that allows user to log in and pick or remove their favorite mo
 4. Display comments per movie
 5. User has ability to delete comment
 6. Share facebook icon on the favorite movie
+7. Flash message in front end when user signs up
 
 ## Incoming Features:
 
 1. Comment would be implemented for each movie - done
 2. Share movie on social network - done
-3. Add connect flash messages to front end
+3. Add connect flash messages to front end - done
 4. Add Search bar to search for movie
+5. Add scroll up button to scroll all the way to top on the Home page
+6. Register email and verify token email after signing up
