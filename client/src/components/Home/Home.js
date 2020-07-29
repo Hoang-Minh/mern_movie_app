@@ -23,7 +23,7 @@ class Home extends React.Component {
     window.removeEventListener("scroll", this.loadMore);
   }
 
-  fetchMovies = async (endpoint) => {
+  fetchMovies = async (endpoint, loadFeatureMovie = true) => {
     try {
       const response = await axios.get(endpoint);
       console.log("fetch movies", response);
@@ -31,7 +31,7 @@ class Home extends React.Component {
 
       this.setState({
         movies: [...this.state.movies, ...results],
-        featureMovie: results[0],
+        featureMovie: loadFeatureMovie ? results[0] : this.state.featureMovie,
         currentPage: page,
       });
     } catch (error) {
@@ -51,11 +51,11 @@ class Home extends React.Component {
     // console.log(document.scrollingElement.scrollHeight);
 
     if (
-      window.innerHeight + document.documentElement.scrollTop + 5 >=
+      window.innerHeight + document.documentElement.scrollTop + 500 >=
       document.scrollingElement.scrollHeight
     ) {
       // Do load more content here!
-      this.fetchMovies(endpoint);
+      this.fetchMovies(endpoint, false);
     }
   };
 
