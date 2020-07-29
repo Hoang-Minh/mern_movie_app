@@ -22,9 +22,9 @@ class App extends React.Component {
           <Header></Header>
           {/* <NewHeader></NewHeader> */}
           <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/signup" exact component={SignUp} />
-            <Route path="/signin" exact component={SignIn} />
+            <Route exact path="/" component={Home} />
+            <Route exact path="/signup" component={SignUp} />
+            <Route exact path="/signin" component={SignIn} />
             <Route exact path="/movie/:movieId" component={MovieDetail} />
             <Route exact path="/fav_movies" component={FavoriteMovies} />
           </Switch>
