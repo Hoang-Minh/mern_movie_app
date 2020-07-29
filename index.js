@@ -3,8 +3,6 @@ const app = express();
 const mongoose = require("mongoose");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
-const session = require("express-session");
-const flash = require("connect-flash");
 const morgan = require("morgan");
 const helmet = require("helmet");
 const indexRoutes = require("./routes/index");
@@ -31,24 +29,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(passport.initialize());
-app.use(flash());
 app.use(cookieParser("chao buoi sang"));
-
-// Express session
-app.use(
-  session({
-    secret: "secret",
-    resave: true,
-    saveUninitialized: true,
-  })
-);
-
-// app.use((req, res, next) => {
-//   res.locals.currentUserTest = req.user;
-//   res.locals.error = req.flash("error");
-//   res.locals.success = req.flash("success");
-//   next();
-// });
 
 app.use("/api/users/:userId/movies/", commentRoutes);
 app.use("/api/user/movies", movieRoutes);

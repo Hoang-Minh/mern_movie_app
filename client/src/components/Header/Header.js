@@ -68,11 +68,10 @@ class Header extends React.Component {
     return (
       <div className={styles.header}>
         <AppBar position="static" style={{ backgroundColor: "#538740" }}>
-          <Toolbar>
+          <Toolbar id="back-to-top-anchor">
             <Typography variant="h6" className={styles.title}>
               Movies DB
             </Typography>
-
             {this.renderAuthButton()}
           </Toolbar>
         </AppBar>

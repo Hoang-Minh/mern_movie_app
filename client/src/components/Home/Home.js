@@ -4,6 +4,7 @@ import { withRouter } from "react-router-dom";
 import { API_URL, API_KEY } from "../Config";
 import MovieBanner from "../MovieBanner/MovieBanner";
 import MovieList from "./MovieList";
+import ScrollTopArrow from "./ScrollTopArrow";
 
 class Home extends React.Component {
   state = { movies: [], featureMovie: null, currentPage: 0 };
@@ -78,6 +79,7 @@ class Home extends React.Component {
           movies={this.state.movies}
           history={this.props.history}
         ></MovieList>
+        <ScrollTopArrow></ScrollTopArrow>
 
         <br />
       </div>
