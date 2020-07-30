@@ -6,11 +6,12 @@ import { IMAGE_BASE_URL, IMAGE_SIZE } from "../Config";
 import styles from "./MovieBanner.module.css";
 
 const MovieBanner = ({ showContent, movie }) => {
-  console.log("show content", showContent);
+  console.log("show content from movie banner", showContent);
   const image = `${IMAGE_BASE_URL}/${IMAGE_SIZE}${movie.backdrop_path}`;
   const { title, overview } = movie;
 
   const renderContent = () => {
+    console.log("reload render Content");
     if (showContent) {
       return (
         <div className={styles.container}>
