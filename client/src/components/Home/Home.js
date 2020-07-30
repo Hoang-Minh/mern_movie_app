@@ -73,8 +73,15 @@ class Home extends React.Component {
   //   return nextState.movies.length !== this.state.movies.length;
   // };
 
-  onSearch = () => {
+  onSearch = async () => {
     console.log(this.input.current.firstChild.firstChild.value); // get value !!!
+    const term = this.input.current.firstChild.firstChild.value;
+    const query = term.split(" ").join("+");
+    console.log(query);
+    //https://api.themoviedb.org/3/search/movie?api_key={api_key}&query=Jack+Reacher
+    const endpoint = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`;
+    const response = await axios.get(endpoint);
+    console.log(response.data.results);
   };
 
   render() {
