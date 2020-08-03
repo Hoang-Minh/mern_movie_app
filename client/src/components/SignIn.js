@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -15,7 +16,6 @@ import {
   CssBaseline,
   Container,
 } from "@material-ui/core";
-import { useDispatch } from "react-redux";
 import { fetchUser1 } from "../actions";
 
 const useStyles = makeStyles((theme) => ({

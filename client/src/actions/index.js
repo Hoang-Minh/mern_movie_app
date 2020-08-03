@@ -131,10 +131,25 @@ export const deleteComment = (userId, movieId, commentId) => async (
 
 // For login
 export const fetchUser1 = async (formValues, dispatch) => {
-  console.log("login route", formValues);
-  const response = await axios.post("/api/signin", formValues, {
-    withCredentials: true,
-  });
-  const { data } = response;
-  dispatch({ type: FETCH_USER, payload: data });
+  try {
+    console.log("login route", formValues);
+    const response = await axios.post("/api/signin", formValues, {
+      withCredentials: true,
+    });
+    const { data } = response;
+    dispatch({ type: FETCH_USER, payload: data });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+// signup
+export const signUpUser1 = async (formValues, dispatch) => {
+  try {
+    const response = await axios.post("/api/signup", formValues);
+    const { data } = response;
+    dispatch({ type: ADD_USER, payload: data.token ? true : false });
+  } catch (error) {
+    console.log(error);
+  }
 };

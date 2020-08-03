@@ -1,11 +1,7 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import axios from "axios";
 import moment from "moment";
-import { Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -19,6 +15,7 @@ import {
   Avatar,
   CssBaseline,
 } from "@material-ui/core";
+import { signUpUser1 } from "../actions";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -32,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles();
-  const user = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
 
   const initialValues = {
     firstName: "",
@@ -56,29 +53,10 @@ const SignUp = () => {
       .required("Confirm Password is required"),
   });
 
-  const signUpUser = async (formValues) => {
-    try {
-      await axios.post("/api/signup", formValues);
-
-      toast.success(
-        "Thanks for signing up. You can log in now with your newly account now",
-        {
-          position: toast.POSITION.TOP_RIGHT,
-        }
-      );
-    } catch (error) {
-      console.log(error.response.data.message);
-      toast.error(error.response.data.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    }
-  };
-
   const rendereContent = () => {
     return (
       <Container component="main" className={classes.container}>
         <CssBaseline />
-        <ToastContainer></ToastContainer>
         <Grid
           container
           direction="column"
@@ -106,7 +84,7 @@ const SignUp = () => {
                   password: values.password,
                   avatar: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
                 };
-                signUpUser(data);
+                signUpUser1(data, dispatch);
                 setSubmitting(false);
                 resetForm();
               }}
