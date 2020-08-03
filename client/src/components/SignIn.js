@@ -1,11 +1,8 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import React, { useState } from "react";
+import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { TextField } from "formik-material-ui";
 import {
   Typography,
@@ -17,11 +14,11 @@ import {
   Avatar,
   CssBaseline,
   Container,
-  withStyles,
 } from "@material-ui/core";
-import { fetchUser } from "../actions";
+import { useDispatch } from "react-redux";
+import { fetchUser1 } from "../actions";
 
-const styles = (theme) => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     marginTop: theme.spacing(5),
   },
@@ -29,12 +26,14 @@ const styles = (theme) => ({
     marginLeft: theme.spacing(7),
     backgroundColor: theme.palette.secondary.main,
   },
-});
+}));
 
-class SignIn extends React.Component {
-  state = { rememberMe: false };
+const SignIn = () => {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+  const [rememberMe, setRememberMe] = useState(false);
 
-  initialValues = {
+  const initialValues = {
     username: localStorage.getItem("username")
       ? localStorage.getItem("username") // this is the remember me local storage
       : "",
@@ -43,29 +42,21 @@ class SignIn extends React.Component {
       : "", // this is the remember me local storage
   };
 
-  handleChange = (event) => {
-    console.log(event);
-    this.setState({ rememberMe: event.target.checked });
+  const onChangeRememberMe = (event) => {
+    setRememberMe(event.target.checked);
   };
 
-  validationSchema = Yup.object().shape({
+  const validationSchema = Yup.object().shape({
     username: Yup.string().required("Username is required"),
     password: Yup.string()
       .min(6, "Password must be at least 6 characters")
       .required("Password is required"),
   });
 
-  rendereContent = () => {
-    const { classes } = this.props;
-
-    if (this.props.auth) {
-      return <Redirect to="/"></Redirect>;
-    }
-
+  const rendereContent = () => {
     return (
       <Container component="main" className={classes.container}>
         <CssBaseline />
-        <ToastContainer></ToastContainer>
         <Grid
           container
           direction="column"
@@ -81,17 +72,16 @@ class SignIn extends React.Component {
           </Grid>
           <Grid item md={6} xs={6}>
             <Formik
-              initialValues={this.initialValues}
-              validationSchema={this.validationSchema}
+              initialValues={initialValues}
+              validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 // same shape as initial values
                 const data = {
                   username: values.username,
                   password: values.password,
-                  //image: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
                 };
 
-                if (this.state.rememberMe) {
+                if (rememberMe) {
                   // checkbox
                   localStorage.setItem("username", data.username);
                   localStorage.setItem("password", data.password);
@@ -100,9 +90,7 @@ class SignIn extends React.Component {
                   localStorage.removeItem("password");
                 }
 
-                // sign in
-                this.props.fetchUser(data, this.props.history);
-                // this.signInUser(data);
+                fetchUser1(data, dispatch);
                 setSubmitting(false);
               }}
             >
@@ -133,8 +121,8 @@ class SignIn extends React.Component {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={this.state.rememberMe}
-                          onChange={this.handleChange}
+                          checked={rememberMe}
+                          onChange={onChangeRememberMe}
                           name="checkedA"
                           color="primary"
                         />
@@ -166,17 +154,7 @@ class SignIn extends React.Component {
     );
   };
 
-  render() {
-    return <div>{this.rendereContent()}</div>;
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    auth: state.auth,
-  };
+  return <div>{rendereContent()}</div>;
 };
 
-export default connect(mapStateToProps, { fetchUser })(
-  withStyles(styles)(SignIn)
-);
+export default SignIn;

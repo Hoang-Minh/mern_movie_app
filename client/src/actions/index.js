@@ -128,3 +128,13 @@ export const deleteComment = (userId, movieId, commentId) => async (
   console.log("delete comment", response.data);
   dispatch({ type: DELETE_COMMENT, payload: response.data });
 };
+
+// For login
+export const fetchUser1 = async (formValues, dispatch) => {
+  console.log("login route", formValues);
+  const response = await axios.post("/api/signin", formValues, {
+    withCredentials: true,
+  });
+  const { data } = response;
+  dispatch({ type: FETCH_USER, payload: data });
+};

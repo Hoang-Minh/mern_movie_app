@@ -75,9 +75,6 @@ const SignUp = () => {
   };
 
   const rendereContent = () => {
-    if (user) {
-      return <Redirect to="/"></Redirect>;
-    }
     return (
       <Container component="main" className={classes.container}>
         <CssBaseline />

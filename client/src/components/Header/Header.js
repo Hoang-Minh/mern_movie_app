@@ -4,62 +4,37 @@ import { connect } from "react-redux";
 import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
 import { signOutUser } from "../../actions";
 import styles from "./Header.module.css";
-import Profile from "../Profile";
+// import Profile from "../Profile";
 
 class Header extends React.Component {
   renderAuthButton = () => {
     const { history } = this.props;
 
-    if (this.props.auth && this.props.auth.username) {
-      return (
-        <Fragment>
-          <Profile
-            username={this.props.auth.username}
-            history={history}
-          ></Profile>
-          <Button
-            color="inherit"
-            className={styles.home}
-            onClick={() => history.push("/fav_movies")}
-          >
-            Favorite
-          </Button>
-          <Button
-            color="inherit"
-            className={styles.home}
-            onClick={() => history.push("/")}
-          >
-            Home
-          </Button>
-        </Fragment>
-      );
-    } else {
-      return (
-        <Fragment>
-          <Button
-            color="inherit"
-            className={styles.home}
-            onClick={() => history.push("/")}
-          >
-            Home
-          </Button>
-          <Button
-            color="inherit"
-            className={styles.home}
-            onClick={() => history.push("/signin")}
-          >
-            Sign In
-          </Button>
-          <Button
-            color="inherit"
-            className={styles.home}
-            onClick={() => history.push("/signup")}
-          >
-            Sign Up
-          </Button>
-        </Fragment>
-      );
-    }
+    return (
+      <Fragment>
+        <Button
+          color="inherit"
+          className={styles.home}
+          onClick={() => history.push("/")}
+        >
+          Home
+        </Button>
+        <Button
+          color="inherit"
+          className={styles.home}
+          onClick={() => history.push("/signin")}
+        >
+          Sign In
+        </Button>
+        <Button
+          color="inherit"
+          className={styles.home}
+          onClick={() => history.push("/signup")}
+        >
+          Sign Up
+        </Button>
+      </Fragment>
+    );
   };
 
   render() {
@@ -80,10 +55,4 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    auth: state.auth,
-  };
-};
-
-export default connect(mapStateToProps, { signOutUser })(withRouter(Header));
+export default connect(null, { signOutUser })(withRouter(Header));
