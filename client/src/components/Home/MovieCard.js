@@ -9,6 +9,7 @@ import {
 } from "@material-ui/core";
 import { IMAGE_BASE_URL, POSTER_SIZE } from "../Config";
 import MovieRating from "../MovieRating";
+import { Rating } from "@material-ui/lab";
 
 function MovieCard({ movie, history }) {
   const trimTitle = (title) => {
@@ -34,7 +35,7 @@ function MovieCard({ movie, history }) {
   return (
     <Card>
       <CardActionArea
-        style={{ height: "30rem" }}
+        style={{ height: "30rem", border: "1px ridge" }}
         onClick={() =>
           history.push(`/movie/${movie.id}`, {
             showContent: false,
@@ -53,6 +54,7 @@ function MovieCard({ movie, history }) {
           </Typography>
           <Typography component="legend">{movie.vote_average} stars</Typography>
           <MovieRating size={`small`} rating={movie.vote_average}></MovieRating>
+
           <Typography variant="body2" component="p">
             {renderMovieContent(movie.overview, movie.id)}
           </Typography>
