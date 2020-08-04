@@ -153,3 +153,9 @@ export const signUpUser1 = async (formValues, dispatch) => {
     console.log(error);
   }
 };
+
+export const getListOfFavMovies1 = async (dispatch) => {
+  const response = await axios.get("/api/user/movies");
+  const { data } = response;
+  dispatch({ type: FAVORITE_MOVIES, payload: data });
+};

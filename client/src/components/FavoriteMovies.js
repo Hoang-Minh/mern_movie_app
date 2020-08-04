@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -10,11 +10,10 @@ import {
   Button,
 } from "@material-ui/core";
 import Image from "material-ui-image";
-import { connect } from "react-redux";
-import { getListOfFavMovies, deleteFavoriteMovie } from "../actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getListOfFavMovies1, deleteFavoriteMovie } from "../actions";
 import { IMAGE_BASE_URL, AVATAR_SIZE } from "./Config";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
-
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
 
@@ -28,12 +27,16 @@ const theme = createMuiTheme({
   },
 });
 
-class FavoriteMovies extends React.Component {
-  componentDidMount = () => {
-    this.props.getListOfFavMovies();
-  };
+const FavoriteMovies = () => {
+  const favMovies = useSelector((state) => state.favMovies);
+  const dispatch = useDispatch();
 
-  renderContent = () => {
+  useEffect(() => {
+    getListOfFavMovies1(dispatch);
+  }, []);
+
+  const renderContent = () => {
+    if (favMovies.length === 0) return <div>No fav movies</div>;
     return (
       <Fragment>
         <ThemeProvider theme={theme}>
@@ -48,7 +51,7 @@ class FavoriteMovies extends React.Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.props.favMovies.map((movie, index) => {
+                {favMovies.map((movie, index) => {
                   const { title, poster, plot, movieId } = movie;
                   return (
                     <Fragment key={index}>
@@ -84,18 +87,7 @@ class FavoriteMovies extends React.Component {
     );
   };
 
-  render() {
-    return <div>{this.renderContent()}</div>;
-  }
-}
-
-const mapStateToProps = (state) => {
-  return {
-    favMovies: state.favMovies,
-  };
+  return <div>{renderContent()}</div>;
 };
 
-export default connect(mapStateToProps, {
-  getListOfFavMovies,
-  deleteFavoriteMovie,
-})(FavoriteMovies);
+export default FavoriteMovies;
