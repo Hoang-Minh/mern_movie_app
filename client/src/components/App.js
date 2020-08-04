@@ -13,46 +13,29 @@ import UnauthenticatedRoute from "./UnauthenticatedRoutes";
 import AuthenticatedRoute from "./AuthenticatedRoutes";
 
 class App extends React.Component {
-  state = { isLoggedIn: false, username: "" };
+  // state = { isLoggedIn: false, username: "" };
 
   componentDidMount() {
-    console.log("check login");
     this.props.checkLoggedIn();
   }
 
-  componentDidUpdate() {
-    // this.setState({
-    //   isLoggedIn: this.props.auth.isLoggedIn,
-    //   username: this.props.auth.username,
-    // });
-    const isLogged = this.props.auth.isLoggedIn;
-    const name = this.props.auth.username;
-
-    this.setState({
-      isLoggedIn: isLogged,
-      username: name,
-    });
-
-    // console.log(this.props.auth.isLoggedIn);
-    // console.log(this.props.auth.username);
-  }
-
   render() {
+    if (!this.props.auth) return null;
     return (
       <Container maxWidth="lg" disableGutters>
         <BrowserRouter>
-          <Header username={this.state.username}></Header>
+          <Header username={this.props.auth.username}></Header>
           <Switch>
             <Route exact path="/" component={Home} />
             <UnauthenticatedRoute
               path="/signin"
               component={SignIn}
-              appProps={this.state.isLoggedIn}
+              appProps={this.props.auth.isLoggedIn}
             />
             <UnauthenticatedRoute
               path="/signup"
               component={SignUp}
-              appProps={this.state.isLoggedIn}
+              appProps={this.props.auth.isLoggedIn}
             />
             {/* <UnauthenticatedRoute
               path="/movie/:movieId"
@@ -63,7 +46,7 @@ class App extends React.Component {
             <AuthenticatedRoute
               path="/fav_movies"
               component={FavoriteMovies}
-              appProps={this.state.isLoggedIn}
+              appProps={this.props.auth.isLoggedIn}
             />
           </Switch>
         </BrowserRouter>

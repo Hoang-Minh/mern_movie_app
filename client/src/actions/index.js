@@ -22,7 +22,8 @@ export const checkLoggedIn = () => async (dispatch) => {
     dispatch({ type: FETCH_USER, payload: response.data });
   } catch (error) {
     // send to get new token ?
-    console.log(error);
+    //console.log(error);
+    dispatch({ type: FETCH_USER, payload: { isLoggedIn: false } });
   }
 };
 

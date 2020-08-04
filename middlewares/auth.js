@@ -15,7 +15,7 @@ module.exports = {
       console.log("Trying to find user");
       const foundUser = await jwt.verify(token, keys.ACCESS_TOKEN_SECRET);
 
-      if (!foundUser) return res.sendStatus(403);
+      if (!foundUser) return res.json({ isLoggedIn: false });
       console.log("found user", foundUser);
       req.user = foundUser;
       next();

@@ -16,7 +16,7 @@ export default (state = [], action) => {
     case DELETE_COMMENT:
       return state.filter((comment) => comment._id !== action.payload._id);
     case CLEAR_ALL:
-      return null;
+      return [];
     default:
       return state;
   }

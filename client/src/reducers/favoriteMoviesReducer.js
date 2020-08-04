@@ -14,7 +14,7 @@ export default function (state = [], action) {
     case DELETE_FAVORITE_MOVIE:
       return state.filter((movie) => movie._id !== action.payload._id);
     case CLEAR_ALL:
-      return null;
+      return [];
     default:
       return state;
   }
