@@ -26,7 +26,6 @@ class MovieDetail extends Component {
     const path = this.props.location.pathname;
     const regex = /\d+/;
     const movieId = path.match(regex).join("");
-    console.log(movieId);
     this.props.fetchComments(movieId);
     this.fetchMovie(path);
 

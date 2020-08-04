@@ -39,19 +39,16 @@ class App extends React.Component {
               component={SignUp}
               appProps={this.props.auth}
             />
-            {/* <AuthenticatedRoute
+            <AuthenticatedRoute
               path="/movie/:movieId"
               component={MovieDetail}
               appProps={this.props.auth}
-            /> */}
+            />
             <AuthenticatedRoute
               path="/fav_movies"
               component={FavoriteMovies}
               appProps={this.props.auth}
             />
-
-            {/* <Route exact path="/movie/:movieId" component={MovieDetail} />
-            <Route exact path="/fav_movies" component={FavoriteMovies} /> */}
           </Switch>
         </BrowserRouter>
       </Container>

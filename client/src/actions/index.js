@@ -159,3 +159,13 @@ export const getListOfFavMovies1 = async (dispatch) => {
   const { data } = response;
   dispatch({ type: FAVORITE_MOVIES, payload: data });
 };
+
+export const deleteFavoriteMovie1 = async (movieId, dispatch) => {
+  try {
+    const response = await axios.delete(`/api/user/movies/${movieId}`);
+    const { data } = response;
+    dispatch({ type: DELETE_FAVORITE_MOVIE, payload: data.movieInDb });
+  } catch (error) {
+    console.log(error);
+  }
+};

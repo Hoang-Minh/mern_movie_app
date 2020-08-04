@@ -1,4 +1,5 @@
 import React, { Fragment, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import {
   Table,
   TableBody,
@@ -8,11 +9,11 @@ import {
   TableRow,
   Paper,
   Button,
+  CardMedia,
 } from "@material-ui/core";
-import Image from "material-ui-image";
 import { useDispatch, useSelector } from "react-redux";
-import { getListOfFavMovies1, deleteFavoriteMovie } from "../actions";
-import { IMAGE_BASE_URL, AVATAR_SIZE } from "./Config";
+import { getListOfFavMovies1, deleteFavoriteMovie1 } from "../actions";
+import { IMAGE_BASE_URL, IMAGE_SIZE } from "./Config";
 import DeleteOutlineIcon from "@material-ui/icons/DeleteOutline";
 import { ThemeProvider } from "@material-ui/core";
 import { createMuiTheme } from "@material-ui/core/styles";
@@ -29,6 +30,7 @@ const theme = createMuiTheme({
 
 const FavoriteMovies = () => {
   const favMovies = useSelector((state) => state.favMovies);
+  const history = useHistory();
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const FavoriteMovies = () => {
   }, []);
 
   const renderContent = () => {
+    console.log(history);
     if (favMovies.length === 0) return <div>No fav movies</div>;
     return (
       <Fragment>
@@ -60,19 +63,17 @@ const FavoriteMovies = () => {
                         <TableCell align="center">
                           <Button
                             onClick={() =>
-                              this.props.deleteFavoriteMovie(movieId)
+                              deleteFavoriteMovie1(movieId, dispatch)
                             }
                           >
                             <DeleteOutlineIcon></DeleteOutlineIcon>
                           </Button>
                         </TableCell>
-                        <TableCell
-                          style={{ height: 150, width: 150 }}
-                          align="center"
-                        >
-                          <Image
-                            src={`${IMAGE_BASE_URL}/${AVATAR_SIZE}${poster}`}
-                          ></Image>
+                        <TableCell align="center">
+                          <CardMedia
+                            component="img"
+                            src={`${IMAGE_BASE_URL}/${IMAGE_SIZE}${poster}`}
+                          ></CardMedia>
                         </TableCell>
                         <TableCell align="left">{plot}</TableCell>
                       </TableRow>
