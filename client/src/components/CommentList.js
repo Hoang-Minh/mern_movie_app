@@ -27,9 +27,12 @@ class CommentList extends Component {
   render() {
     return (
       <div style={{ clear: "right" }}>
-        <Typography variant="h4" style={{ marginBottom: "2rem" }}>
-          Comment
-        </Typography>
+        {this.props.comments.length > 0 ? (
+          <Typography variant="h4" style={{ marginBottom: "2rem" }}>
+            Comment
+          </Typography>
+        ) : null}
+
         <Paper elevation={0} style={{ padding: "2rempx 1rem" }}>
           {this.renderComments()}
         </Paper>
