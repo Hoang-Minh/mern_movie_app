@@ -81,7 +81,7 @@ class Home extends React.Component {
 
   onClearTerm = () => {
     console.log("search was cleared");
-    this.setState({ currentMovies: this.state.movies });
+    this.setState({ currentMovies: this.state.movies, loading: true });
   };
 
   renderContent = () => {
