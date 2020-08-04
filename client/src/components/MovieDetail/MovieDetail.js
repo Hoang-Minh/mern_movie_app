@@ -11,6 +11,7 @@ import Trailer from "../Trailer";
 import MainCasts from "../MainCasts";
 import CommentList from "../CommentList";
 import {
+  checkLoggedIn,
   getListOfFavMovies,
   addFavoriteMovie,
   fetchComments,
@@ -28,14 +29,12 @@ class MovieDetail extends Component {
     const movieId = path.match(regex).join("");
     this.props.fetchComments(movieId);
     this.fetchMovie(path);
-
-    // only fetch favorite movies when user logged in
-    if (this.props.auth) {
-      this.props.getListOfFavMovies();
-    }
+    this.props.checkLoggedIn();
+    this.props.getListOfFavMovies();
   }
 
   fetchMovie = async (pathname) => {
+    console.log("logged in", this.props.auth);
     const endpoint = `${API_URL}${pathname}?api_key=${API_KEY}&language=en-US`;
     console.log("endpoint for fetch movie", endpoint);
     const response = await axios.get(endpoint);
@@ -44,8 +43,7 @@ class MovieDetail extends Component {
   };
 
   renderFavButton = () => {
-    if (!this.props.auth) return null;
-
+    if (!this.props.isLoggedIn) return null;
     let btnText = "Add To Favorite";
 
     if (this.isCurrentMovieFavorite()) {
@@ -56,12 +54,16 @@ class MovieDetail extends Component {
         <FavoriteButton
           buttonText={btnText}
           onFavBtnTextChange={this.onClickFavButton}
+          // disabled={btnText === "Added To Favorite" ? true : false}
         ></FavoriteButton>
       </Fragment>
     );
   };
 
   isCurrentMovieFavorite = () => {
+    //only fetch favorite movies when user logged in
+    if (!this.props.isLoggedIn) return false;
+
     const haveFav = this.props.favMovies.some(
       (each) => each.movieId === this.state.movie.id.toString()
     );
@@ -88,7 +90,8 @@ class MovieDetail extends Component {
 
   renderComments = () => {
     if (!this.state.movie) return null;
-    if (!this.props.auth) {
+
+    if (!this.props.isLoggedIn) {
       return (
         <Typography
           align="left"
@@ -104,7 +107,7 @@ class MovieDetail extends Component {
 
     return (
       <CommentInput
-        userId={this.props.auth.id}
+        userId={this.props.userId}
         movie={this.state.movie}
       ></CommentInput>
     );
@@ -151,13 +154,15 @@ class MovieDetail extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth,
+    userId: state.auth && state.auth.id,
+    isLoggedIn: state.auth && state.auth.isLoggedIn === true,
     favMovies: state.favMovies,
     comments: state.comments,
   };
 };
 
 export default connect(mapStateToProps, {
+  checkLoggedIn,
   getListOfFavMovies,
   addFavoriteMovie,
   fetchComments,

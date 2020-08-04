@@ -80,6 +80,7 @@ router.post(
         token,
         id,
         username,
+        isLoggedIn: true,
       });
     } catch (error) {
       console.log(error);
@@ -96,9 +97,15 @@ router.get("/api/check_logged_in", authenticateToken, async (req, res) => {
 
     const { token } = req.cookies;
 
-    res.json({ token: token, id: user.id, username: user.username });
+    res.json({
+      token: token,
+      id: user.id,
+      username: user.username,
+      isLoggedIn: true,
+    });
   } catch (error) {
     console.log(error);
+    next(error);
   }
 });
 

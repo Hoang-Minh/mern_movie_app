@@ -1,45 +1,19 @@
-import React, { Fragment } from "react";
-import { withRouter } from "react-router-dom";
+import React from "react";
 import { connect } from "react-redux";
-import { AppBar, Toolbar, Typography, Button } from "@material-ui/core";
+import { AppBar, Toolbar, Typography } from "@material-ui/core";
 import { signOutUser } from "../../actions";
 import styles from "./Header.module.css";
-// import Profile from "../Profile";
+import UnAuthHeader from "./UnAuthHeader";
+import AuthHeader from "./AuthHeader";
 
 class Header extends React.Component {
   renderAuthButton = () => {
-    const { history } = this.props;
+    if (!this.props.username) return <UnAuthHeader></UnAuthHeader>;
 
-    return (
-      <Fragment>
-        <Button
-          color="inherit"
-          className={styles.home}
-          onClick={() => history.push("/")}
-        >
-          Home
-        </Button>
-        <Button
-          color="inherit"
-          className={styles.home}
-          onClick={() => history.push("/signin")}
-        >
-          Sign In
-        </Button>
-        <Button
-          color="inherit"
-          className={styles.home}
-          onClick={() => history.push("/signup")}
-        >
-          Sign Up
-        </Button>
-      </Fragment>
-    );
+    return <AuthHeader username={this.props.username}></AuthHeader>;
   };
 
   render() {
-    console.log("auth: ", this.props.auth);
-
     return (
       <div className={styles.header}>
         <AppBar position="static" style={{ backgroundColor: "#538740" }}>
@@ -55,4 +29,4 @@ class Header extends React.Component {
   }
 }
 
-export default connect(null, { signOutUser })(withRouter(Header));
+export default connect(null, { signOutUser })(Header);

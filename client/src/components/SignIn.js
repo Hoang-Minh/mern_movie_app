@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
@@ -32,6 +33,7 @@ const SignIn = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [rememberMe, setRememberMe] = useState(false);
+  const history = useHistory();
 
   const initialValues = {
     username: localStorage.getItem("username")
@@ -90,7 +92,7 @@ const SignIn = () => {
                   localStorage.removeItem("password");
                 }
 
-                fetchUser1(data, dispatch);
+                fetchUser1(data, dispatch, history);
                 setSubmitting(false);
               }}
             >

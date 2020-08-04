@@ -9,7 +9,7 @@ module.exports = {
     const token = req.cookies.token;
     console.log("token", token);
 
-    if (token == null) return res.sendStatus(401);
+    if (token == null) return res.json({ isLoggedIn: false });
 
     try {
       console.log("Trying to find user");

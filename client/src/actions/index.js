@@ -130,7 +130,7 @@ export const deleteComment = (userId, movieId, commentId) => async (
 };
 
 // For login
-export const fetchUser1 = async (formValues, dispatch) => {
+export const fetchUser1 = async (formValues, dispatch, history) => {
   try {
     console.log("login route", formValues);
     const response = await axios.post("/api/signin", formValues, {
@@ -138,6 +138,7 @@ export const fetchUser1 = async (formValues, dispatch) => {
     });
     const { data } = response;
     dispatch({ type: FETCH_USER, payload: data });
+    history.push("/");
   } catch (error) {
     console.log(error);
   }

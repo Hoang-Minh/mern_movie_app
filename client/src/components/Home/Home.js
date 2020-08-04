@@ -35,7 +35,6 @@ class Home extends React.Component {
   fetchMovies = async (endpoint) => {
     try {
       const response = await axios.get(endpoint);
-      console.log("fetch movies", response);
       const { results, page } = response.data;
 
       this.setState(
@@ -73,21 +72,17 @@ class Home extends React.Component {
   };
 
   onTermSearch = (results) => {
-    console.log("change movie", results);
     this.setState({ resultMovies: results, loading: false }, () =>
       this.setState({ currentMovies: this.state.resultMovies })
     );
   };
 
   onClearTerm = () => {
-    console.log("search was cleared");
     this.setState({ currentMovies: this.state.movies, loading: true });
   };
 
   renderContent = () => {
     if (this.state.currentMovies.length === 0) return null;
-
-    console.log(this.state.currentMovies);
 
     return (
       <Fragment>
