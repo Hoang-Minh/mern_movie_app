@@ -51,15 +51,10 @@ class Home extends React.Component {
 
   loadMore = () => {
     if (this.state.loading) {
-      //console.log("Load more");
       let endpoint = "";
-      //console.log("Current Page", this.state.currentPage);
       endpoint = `${API_URL}/movie/popular?api_key=${API_KEY}&language=en-US&page=${
         this.state.currentPage + 1
       }`;
-
-      // console.log(window.innerHeight + document.documentElement.scrollTop);
-      // console.log(document.scrollingElement.scrollHeight);
 
       if (
         window.innerHeight + document.documentElement.scrollTop + 500 >=
