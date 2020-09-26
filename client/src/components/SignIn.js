@@ -75,7 +75,7 @@ const SignIn = () => {
           <Grid item md={6} xs={6}>
             <Formik
               initialValues={initialValues}
-              validationSchema={validationSchema}
+              validationSchema={validationSchema} // validate inputs before submitting to server
               onSubmit={(values, { setSubmitting }) => {
                 // same shape as initial values
                 const data = {
